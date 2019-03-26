@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  group_type: 1
+  deploy_date: 2019-03-26 13:37:51
+  activity_type: 1
+
+two:
+  name: MyString
+  group_type: 1
+  deploy_date: 2019-03-26 13:37:51
+  activity_type: 1
