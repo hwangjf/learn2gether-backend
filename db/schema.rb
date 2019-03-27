@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_26_175818) do
+ActiveRecord::Schema.define(version: 2019_03_27_132434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(version: 2019_03_26_175818) do
     t.integer "activity_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "batch_id"
+    t.index ["batch_id"], name: "index_activities_on_batch_id"
   end
 
   create_table "batches", force: :cascade do |t|
@@ -29,6 +31,7 @@ ActiveRecord::Schema.define(version: 2019_03_26_175818) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "location_id"
+    t.integer "number"
     t.index ["location_id"], name: "index_batches_on_location_id"
   end
 
@@ -39,13 +42,13 @@ ActiveRecord::Schema.define(version: 2019_03_26_175818) do
     t.index ["activity_id"], name: "index_groups_on_activity_id"
   end
 
-  create_table "instructorbatches", force: :cascade do |t|
+  create_table "instructor_batches", force: :cascade do |t|
     t.bigint "instructor_id"
     t.bigint "batch_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["batch_id"], name: "index_instructorbatches_on_batch_id"
-    t.index ["instructor_id"], name: "index_instructorbatches_on_instructor_id"
+    t.index ["batch_id"], name: "index_instructor_batches_on_batch_id"
+    t.index ["instructor_id"], name: "index_instructor_batches_on_instructor_id"
   end
 
   create_table "instructors", force: :cascade do |t|
@@ -60,22 +63,22 @@ ActiveRecord::Schema.define(version: 2019_03_26_175818) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "studentbatches", force: :cascade do |t|
+  create_table "student_batches", force: :cascade do |t|
     t.bigint "student_id"
     t.bigint "batch_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["batch_id"], name: "index_studentbatches_on_batch_id"
-    t.index ["student_id"], name: "index_studentbatches_on_student_id"
+    t.index ["batch_id"], name: "index_student_batches_on_batch_id"
+    t.index ["student_id"], name: "index_student_batches_on_student_id"
   end
 
-  create_table "studentgroups", force: :cascade do |t|
-    t.bigint "group_id"
+  create_table "student_groups", force: :cascade do |t|
     t.bigint "student_id"
+    t.bigint "group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["group_id"], name: "index_studentgroups_on_group_id"
-    t.index ["student_id"], name: "index_studentgroups_on_student_id"
+    t.index ["group_id"], name: "index_student_groups_on_group_id"
+    t.index ["student_id"], name: "index_student_groups_on_student_id"
   end
 
   create_table "students", force: :cascade do |t|
@@ -87,12 +90,13 @@ ActiveRecord::Schema.define(version: 2019_03_26_175818) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "activities", "batches"
   add_foreign_key "batches", "locations"
   add_foreign_key "groups", "activities"
-  add_foreign_key "instructorbatches", "batches"
-  add_foreign_key "instructorbatches", "instructors"
-  add_foreign_key "studentbatches", "batches"
-  add_foreign_key "studentbatches", "students"
-  add_foreign_key "studentgroups", "groups"
-  add_foreign_key "studentgroups", "students"
+  add_foreign_key "instructor_batches", "batches"
+  add_foreign_key "instructor_batches", "instructors"
+  add_foreign_key "student_batches", "batches"
+  add_foreign_key "student_batches", "students"
+  add_foreign_key "student_groups", "groups"
+  add_foreign_key "student_groups", "students"
 end
