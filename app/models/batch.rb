@@ -1,8 +1,9 @@
 class Batch < ApplicationRecord
   has_many :activities
-  has_many :instructorbatches
-  has_many :instructors, through: :instructorbatches
-  has_many :studentbatches
-  has_many :students, through: :studentbatches
+  has_many :groups, through: :activities
+  has_many :instructor_batches
+  has_many :instructors, through: :instructor_batches
+  has_many :student_batches
+  has_many :students, through: :student_batches
   belongs_to :location
 end
